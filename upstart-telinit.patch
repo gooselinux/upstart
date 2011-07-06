@@ -1,0 +1,13 @@
+diff -up upstart-0.6.3/util/telinit.c.foo upstart-0.6.3/util/telinit.c
+--- upstart-0.6.3/util/telinit.c.foo	2009-12-03 14:52:58.000000000 -0500
++++ upstart-0.6.3/util/telinit.c	2009-12-03 14:53:06.000000000 -0500
+@@ -174,9 +174,6 @@ main (int   argc,
+ 		break;
+ 	case 'U':
+ 	case 'u':
+-		ret = kill (1, SIGTERM);
+-		if (ret < 0)
+-			nih_error_raise_system ();
+ 		break;
+ 	default:
+ 		nih_assert_not_reached ();

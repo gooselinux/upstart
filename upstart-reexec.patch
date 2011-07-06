@@ -1,0 +1,65 @@
+diff -up upstart-0.6.5/init/main.c.foo upstart-0.6.5/init/main.c
+--- upstart-0.6.5/init/main.c.foo	2010-04-30 19:38:07.846260462 -0400
++++ upstart-0.6.5/init/main.c	2010-04-30 21:35:38.690487114 -0400
+@@ -67,6 +67,7 @@ static void kbd_handler     (void *data,
+ static void pwr_handler     (void *data, NihSignal *signal);
+ static void hup_handler     (void *data, NihSignal *signal);
+ static void usr1_handler    (void *data, NihSignal *signal);
++static void term_handler    (void *data, NihSignal *signal);
+ #endif /* DEBUG */
+ 
+ 
+@@ -241,6 +242,10 @@ main (int   argc,
+ 	/* SIGUSR1 instructs us to reconnect to D-Bus */
+ 	nih_signal_set_handler (SIGUSR1, nih_signal_handler);
+ 	NIH_MUST (nih_signal_add_handler (NULL, SIGUSR1, usr1_handler, NULL));
++
++	/* SIGTERM instructs us to re-exec ourselves */
++	nih_signal_set_handler (SIGTERM, nih_signal_handler);
++	NIH_MUST (nih_signal_add_handler (NULL, SIGTERM, term_handler, NULL));
+ #endif /* DEBUG */
+ 
+ 
+@@ -485,4 +490,42 @@ usr1_handler (void      *data,
+ 		}
+ 	}
+ }
++
++/**
++ * term_handler:
++ * @data: unused,
++ * @signal: signal that called this handler
++ *
++ * This is called when we recieve the TERM signal, which instructs us
++ * to reexec ourselves.
++ **/
++static void
++term_handler (void      *data,
++	      NihSignal *signal)
++{
++	NihError   *err;
++	sigset_t    mask, oldmask;
++
++	nih_assert (argv0 != NULL);
++	nih_assert (signal != NULL);
++
++	nih_warn (_("Re-executing %s"), argv0);
++
++	/* Block signals while we work.  We're the last signal handler
++	 * installed so this should mean that they're all handled now.
++	 *
++	 * The child must make sure that it unblocks these again when
++	 * it's ready.
++	 */
++	sigfillset (&mask);
++	sigprocmask (SIG_BLOCK, &mask, &oldmask);
++	execl (argv0, argv0, "--restart", NULL);
++	nih_error_raise_system ();
++
++	err = nih_error_get ();
++	nih_error (_("Failed to re-execute %s: %s"), argv0, err->message);
++	nih_free (err);
++
++	sigprocmask (SIG_SETMASK, &oldmask, NULL);
++}
+ #endif /* DEBUG */
