@@ -109,6 +109,9 @@ rm -rf %{buildroot}
 %{_mandir}/man8/reload.8.gz
 
 %changelog
+* Sat Jul 16 2011 Mike Adams <shalkie@gooseproject.org> 0.6.5-6.1
+- Initial Rebuild for GoOSe Linux 6
+
 * Wed Jun 30 2010 Petr Lautrbach <plautrba@redhat.com> 0.6.5-6.1
 - print error message and remove /etc/nologin when sysvinit shutdown fails
 
