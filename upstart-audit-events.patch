@@ -1,0 +1,872 @@
+diff --git a/Makefile.in b/Makefile.in
+index a9550df..bdd0def 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -49,17 +49,18 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/codeset.m4 \
+ 	$(top_srcdir)/m4/inttypes-pri.m4 \
+ 	$(top_srcdir)/m4/inttypes_h.m4 $(top_srcdir)/m4/lcmessage.m4 \
+ 	$(top_srcdir)/m4/lib-ld.m4 $(top_srcdir)/m4/lib-link.m4 \
+-	$(top_srcdir)/m4/lib-prefix.m4 $(top_srcdir)/m4/libnih.m4 \
+-	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/lock.m4 \
+-	$(top_srcdir)/m4/longlong.m4 $(top_srcdir)/m4/ltoptions.m4 \
+-	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
+-	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/m4/nls.m4 \
+-	$(top_srcdir)/m4/pkg.m4 $(top_srcdir)/m4/po.m4 \
+-	$(top_srcdir)/m4/printf-posix.m4 $(top_srcdir)/m4/progtest.m4 \
+-	$(top_srcdir)/m4/size_max.m4 $(top_srcdir)/m4/stdint_h.m4 \
+-	$(top_srcdir)/m4/uintmax_t.m4 $(top_srcdir)/m4/visibility.m4 \
+-	$(top_srcdir)/m4/wchar_t.m4 $(top_srcdir)/m4/wint_t.m4 \
+-	$(top_srcdir)/m4/xsize.m4 $(top_srcdir)/configure.ac
++	$(top_srcdir)/m4/lib-prefix.m4 $(top_srcdir)/m4/libaudit.m4 \
++	$(top_srcdir)/m4/libnih.m4 $(top_srcdir)/m4/libtool.m4 \
++	$(top_srcdir)/m4/lock.m4 $(top_srcdir)/m4/longlong.m4 \
++	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
++	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
++	$(top_srcdir)/m4/nls.m4 $(top_srcdir)/m4/pkg.m4 \
++	$(top_srcdir)/m4/po.m4 $(top_srcdir)/m4/printf-posix.m4 \
++	$(top_srcdir)/m4/progtest.m4 $(top_srcdir)/m4/size_max.m4 \
++	$(top_srcdir)/m4/stdint_h.m4 $(top_srcdir)/m4/uintmax_t.m4 \
++	$(top_srcdir)/m4/visibility.m4 $(top_srcdir)/m4/wchar_t.m4 \
++	$(top_srcdir)/m4/wint_t.m4 $(top_srcdir)/m4/xsize.m4 \
++	$(top_srcdir)/configure.ac
+ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
+ 	$(ACLOCAL_M4)
+ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
+@@ -132,6 +133,7 @@ ALLOCA = @ALLOCA@
+ AMTAR = @AMTAR@
+ AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
+ AR = @AR@
++AUDIT_LDADD = @AUDIT_LDADD@
+ AUTOCONF = @AUTOCONF@
+ AUTOHEADER = @AUTOHEADER@
+ AUTOMAKE = @AUTOMAKE@
+diff --git a/aclocal.m4 b/aclocal.m4
+index 3d3673e..6e09291 100644
+--- a/aclocal.m4
++++ b/aclocal.m4
+@@ -1066,6 +1066,7 @@ m4_include([m4/lcmessage.m4])
+ m4_include([m4/lib-ld.m4])
+ m4_include([m4/lib-link.m4])
+ m4_include([m4/lib-prefix.m4])
++m4_include([m4/libaudit.m4])
+ m4_include([m4/libnih.m4])
+ m4_include([m4/libtool.m4])
+ m4_include([m4/lock.m4])
+diff --git a/conf/Makefile.in b/conf/Makefile.in
+index 29fd9b7..82c3f99 100644
+--- a/conf/Makefile.in
++++ b/conf/Makefile.in
+@@ -46,17 +46,18 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/codeset.m4 \
+ 	$(top_srcdir)/m4/inttypes-pri.m4 \
+ 	$(top_srcdir)/m4/inttypes_h.m4 $(top_srcdir)/m4/lcmessage.m4 \
+ 	$(top_srcdir)/m4/lib-ld.m4 $(top_srcdir)/m4/lib-link.m4 \
+-	$(top_srcdir)/m4/lib-prefix.m4 $(top_srcdir)/m4/libnih.m4 \
+-	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/lock.m4 \
+-	$(top_srcdir)/m4/longlong.m4 $(top_srcdir)/m4/ltoptions.m4 \
+-	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
+-	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/m4/nls.m4 \
+-	$(top_srcdir)/m4/pkg.m4 $(top_srcdir)/m4/po.m4 \
+-	$(top_srcdir)/m4/printf-posix.m4 $(top_srcdir)/m4/progtest.m4 \
+-	$(top_srcdir)/m4/size_max.m4 $(top_srcdir)/m4/stdint_h.m4 \
+-	$(top_srcdir)/m4/uintmax_t.m4 $(top_srcdir)/m4/visibility.m4 \
+-	$(top_srcdir)/m4/wchar_t.m4 $(top_srcdir)/m4/wint_t.m4 \
+-	$(top_srcdir)/m4/xsize.m4 $(top_srcdir)/configure.ac
++	$(top_srcdir)/m4/lib-prefix.m4 $(top_srcdir)/m4/libaudit.m4 \
++	$(top_srcdir)/m4/libnih.m4 $(top_srcdir)/m4/libtool.m4 \
++	$(top_srcdir)/m4/lock.m4 $(top_srcdir)/m4/longlong.m4 \
++	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
++	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
++	$(top_srcdir)/m4/nls.m4 $(top_srcdir)/m4/pkg.m4 \
++	$(top_srcdir)/m4/po.m4 $(top_srcdir)/m4/printf-posix.m4 \
++	$(top_srcdir)/m4/progtest.m4 $(top_srcdir)/m4/size_max.m4 \
++	$(top_srcdir)/m4/stdint_h.m4 $(top_srcdir)/m4/uintmax_t.m4 \
++	$(top_srcdir)/m4/visibility.m4 $(top_srcdir)/m4/wchar_t.m4 \
++	$(top_srcdir)/m4/wint_t.m4 $(top_srcdir)/m4/xsize.m4 \
++	$(top_srcdir)/configure.ac
+ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
+ 	$(ACLOCAL_M4)
+ mkinstalldirs = $(install_sh) -d
+@@ -100,6 +101,7 @@ ALLOCA = @ALLOCA@
+ AMTAR = @AMTAR@
+ AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
+ AR = @AR@
++AUDIT_LDADD = @AUDIT_LDADD@
+ AUTOCONF = @AUTOCONF@
+ AUTOHEADER = @AUTOHEADER@
+ AUTOMAKE = @AUTOMAKE@
+diff --git a/config.h.in b/config.h.in
+index 8a7d63f..8d000aa 100644
+--- a/config.h.in
++++ b/config.h.in
+@@ -118,6 +118,9 @@
+ /* Define if your <locale.h> file defines LC_MESSAGES. */
+ #undef HAVE_LC_MESSAGES
+ 
++/* linux audit support */
++#undef HAVE_LIBAUDIT
++
+ /* Define to 1 if you have the <limits.h> header file. */
+ #undef HAVE_LIMITS_H
+ 
+diff --git a/configure b/configure
+index 9bad2db..2f93ef5 100755
+--- a/configure
++++ b/configure
+@@ -751,6 +751,7 @@ ac_subst_vars='am__EXEEXT_FALSE
+ am__EXEEXT_TRUE
+ LTLIBOBJS
+ LIBOBJS
++AUDIT_LDADD
+ DBUS_LIBS
+ DBUS_CFLAGS
+ NIH_DBUS_LIBS
+@@ -938,6 +939,7 @@ with_included_gettext
+ with_libintl_prefix
+ with_local_libnih
+ enable_threading
++with_libaudit
+ enable_compiler_warnings
+ enable_compiler_optimisations
+ enable_compiler_coverage
+@@ -1620,6 +1622,7 @@ Optional Packages:
+   --without-libintl-prefix     don't search for libintl in includedir and libdir
+   --with-local-libnih[=DIR]
+                           Use libnih from source tree DIR
++  --with-libaudit=auto/yes/no  Add Linux audit support default=auto
+ 
+ Some influential environment variables:
+   CC          C compiler command
+@@ -5220,13 +5223,13 @@ if test "${lt_cv_nm_interface+set}" = set; then :
+ else
+   lt_cv_nm_interface="BSD nm"
+   echo "int some_variable = 0;" > conftest.$ac_ext
+-  (eval echo "\"\$as_me:5223: $ac_compile\"" >&5)
++  (eval echo "\"\$as_me:5226: $ac_compile\"" >&5)
+   (eval "$ac_compile" 2>conftest.err)
+   cat conftest.err >&5
+-  (eval echo "\"\$as_me:5226: $NM \\\"conftest.$ac_objext\\\"\"" >&5)
++  (eval echo "\"\$as_me:5229: $NM \\\"conftest.$ac_objext\\\"\"" >&5)
+   (eval "$NM \"conftest.$ac_objext\"" 2>conftest.err > conftest.out)
+   cat conftest.err >&5
+-  (eval echo "\"\$as_me:5229: output\"" >&5)
++  (eval echo "\"\$as_me:5232: output\"" >&5)
+   cat conftest.out >&5
+   if $GREP 'External.*some_variable' conftest.out > /dev/null; then
+     lt_cv_nm_interface="MS dumpbin"
+@@ -6431,7 +6434,7 @@ ia64-*-hpux*)
+   ;;
+ *-*-irix6*)
+   # Find out which ABI we are using.
+-  echo '#line 6434 "configure"' > conftest.$ac_ext
++  echo '#line 6437 "configure"' > conftest.$ac_ext
+   if { { eval echo "\"\$as_me\":${as_lineno-$LINENO}: \"$ac_compile\""; } >&5
+   (eval $ac_compile) 2>&5
+   ac_status=$?
+@@ -7693,11 +7696,11 @@ else
+    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
+    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
+    -e 's:$: $lt_compiler_flag:'`
+-   (eval echo "\"\$as_me:7696: $lt_compile\"" >&5)
++   (eval echo "\"\$as_me:7699: $lt_compile\"" >&5)
+    (eval "$lt_compile" 2>conftest.err)
+    ac_status=$?
+    cat conftest.err >&5
+-   echo "$as_me:7700: \$? = $ac_status" >&5
++   echo "$as_me:7703: \$? = $ac_status" >&5
+    if (exit $ac_status) && test -s "$ac_outfile"; then
+      # The compiler can only warn and ignore the option if not recognized
+      # So say no if there are warnings other than the usual output.
+@@ -8032,11 +8035,11 @@ else
+    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
+    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
+    -e 's:$: $lt_compiler_flag:'`
+-   (eval echo "\"\$as_me:8035: $lt_compile\"" >&5)
++   (eval echo "\"\$as_me:8038: $lt_compile\"" >&5)
+    (eval "$lt_compile" 2>conftest.err)
+    ac_status=$?
+    cat conftest.err >&5
+-   echo "$as_me:8039: \$? = $ac_status" >&5
++   echo "$as_me:8042: \$? = $ac_status" >&5
+    if (exit $ac_status) && test -s "$ac_outfile"; then
+      # The compiler can only warn and ignore the option if not recognized
+      # So say no if there are warnings other than the usual output.
+@@ -8137,11 +8140,11 @@ else
+    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
+    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
+    -e 's:$: $lt_compiler_flag:'`
+-   (eval echo "\"\$as_me:8140: $lt_compile\"" >&5)
++   (eval echo "\"\$as_me:8143: $lt_compile\"" >&5)
+    (eval "$lt_compile" 2>out/conftest.err)
+    ac_status=$?
+    cat out/conftest.err >&5
+-   echo "$as_me:8144: \$? = $ac_status" >&5
++   echo "$as_me:8147: \$? = $ac_status" >&5
+    if (exit $ac_status) && test -s out/conftest2.$ac_objext
+    then
+      # The compiler can only warn and ignore the option if not recognized
+@@ -8192,11 +8195,11 @@ else
+    -e 's:.*FLAGS}\{0,1\} :&$lt_compiler_flag :; t' \
+    -e 's: [^ ]*conftest\.: $lt_compiler_flag&:; t' \
+    -e 's:$: $lt_compiler_flag:'`
+-   (eval echo "\"\$as_me:8195: $lt_compile\"" >&5)
++   (eval echo "\"\$as_me:8198: $lt_compile\"" >&5)
+    (eval "$lt_compile" 2>out/conftest.err)
+    ac_status=$?
+    cat out/conftest.err >&5
+-   echo "$as_me:8199: \$? = $ac_status" >&5
++   echo "$as_me:8202: \$? = $ac_status" >&5
+    if (exit $ac_status) && test -s out/conftest2.$ac_objext
+    then
+      # The compiler can only warn and ignore the option if not recognized
+@@ -10576,7 +10579,7 @@ else
+   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
+   lt_status=$lt_dlunknown
+   cat > conftest.$ac_ext <<_LT_EOF
+-#line 10579 "configure"
++#line 10582 "configure"
+ #include "confdefs.h"
+ 
+ #if HAVE_DLFCN_H
+@@ -10672,7 +10675,7 @@ else
+   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
+   lt_status=$lt_dlunknown
+   cat > conftest.$ac_ext <<_LT_EOF
+-#line 10675 "configure"
++#line 10678 "configure"
+ #include "confdefs.h"
+ 
+ #if HAVE_DLFCN_H
+@@ -17209,6 +17212,72 @@ fi
+ 
+ # Checks for library functions.
+ 
++
++# Check whether --with-libaudit was given.
++if test "${with_libaudit+set}" = set; then :
++  withval=$with_libaudit;
++else
++  with_libaudit=auto
++fi
++
++
++  # Check for Linux auditing API
++  #
++  # libaudit detection
++
++  if test x$with_libaudit = xno ; then
++      have_libaudit=no;
++  else
++      # See if we have audit daemon library
++      { $as_echo "$as_me:${as_lineno-$LINENO}: checking for audit_log_user_message in -laudit" >&5
++$as_echo_n "checking for audit_log_user_message in -laudit... " >&6; }
++if test "${ac_cv_lib_audit_audit_log_user_message+set}" = set; then :
++  $as_echo_n "(cached) " >&6
++else
++  ac_check_lib_save_LIBS=$LIBS
++LIBS="-laudit  $LIBS"
++cat confdefs.h - <<_ACEOF >conftest.$ac_ext
++/* end confdefs.h.  */
++
++/* Override any GCC internal prototype to avoid an error.
++   Use char because int might match the return type of a GCC
++   builtin and then its argument prototype would still apply.  */
++#ifdef __cplusplus
++extern "C"
++#endif
++char audit_log_user_message ();
++int
++main ()
++{
++return audit_log_user_message ();
++  ;
++  return 0;
++}
++_ACEOF
++if ac_fn_c_try_link "$LINENO"; then :
++  ac_cv_lib_audit_audit_log_user_message=yes
++else
++  ac_cv_lib_audit_audit_log_user_message=no
++fi
++rm -f core conftest.err conftest.$ac_objext \
++    conftest$ac_exeext conftest.$ac_ext
++LIBS=$ac_check_lib_save_LIBS
++fi
++{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_audit_audit_log_user_message" >&5
++$as_echo "$ac_cv_lib_audit_audit_log_user_message" >&6; }
++if test "x$ac_cv_lib_audit_audit_log_user_message" = x""yes; then :
++  AUDIT_LDADD=-laudit
++fi
++
++  fi
++
++  if test x$AUDIT_LDADD != x ; then
++
++$as_echo "#define HAVE_LIBAUDIT 1" >>confdefs.h
++
++  fi
++
++
+ # Other checks
+ { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether to include sbindir in PATH" >&5
+ $as_echo_n "checking whether to include sbindir in PATH... " >&6; }
+diff --git a/configure.ac b/configure.ac
+index fb79a13..3dc1550 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -54,6 +54,7 @@ AM_PROG_CC_C_O
+ NIH_C_THREAD
+ 
+ # Checks for library functions.
++LINUX_AUDIT
+ 
+ # Other checks
+ AC_MSG_CHECKING([whether to include sbindir in PATH])
+diff --git a/contrib/Makefile.in b/contrib/Makefile.in
+index dfe910b..32c7ebd 100644
+--- a/contrib/Makefile.in
++++ b/contrib/Makefile.in
+@@ -44,17 +44,18 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/codeset.m4 \
+ 	$(top_srcdir)/m4/inttypes-pri.m4 \
+ 	$(top_srcdir)/m4/inttypes_h.m4 $(top_srcdir)/m4/lcmessage.m4 \
+ 	$(top_srcdir)/m4/lib-ld.m4 $(top_srcdir)/m4/lib-link.m4 \
+-	$(top_srcdir)/m4/lib-prefix.m4 $(top_srcdir)/m4/libnih.m4 \
+-	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/lock.m4 \
+-	$(top_srcdir)/m4/longlong.m4 $(top_srcdir)/m4/ltoptions.m4 \
+-	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
+-	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/m4/nls.m4 \
+-	$(top_srcdir)/m4/pkg.m4 $(top_srcdir)/m4/po.m4 \
+-	$(top_srcdir)/m4/printf-posix.m4 $(top_srcdir)/m4/progtest.m4 \
+-	$(top_srcdir)/m4/size_max.m4 $(top_srcdir)/m4/stdint_h.m4 \
+-	$(top_srcdir)/m4/uintmax_t.m4 $(top_srcdir)/m4/visibility.m4 \
+-	$(top_srcdir)/m4/wchar_t.m4 $(top_srcdir)/m4/wint_t.m4 \
+-	$(top_srcdir)/m4/xsize.m4 $(top_srcdir)/configure.ac
++	$(top_srcdir)/m4/lib-prefix.m4 $(top_srcdir)/m4/libaudit.m4 \
++	$(top_srcdir)/m4/libnih.m4 $(top_srcdir)/m4/libtool.m4 \
++	$(top_srcdir)/m4/lock.m4 $(top_srcdir)/m4/longlong.m4 \
++	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
++	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
++	$(top_srcdir)/m4/nls.m4 $(top_srcdir)/m4/pkg.m4 \
++	$(top_srcdir)/m4/po.m4 $(top_srcdir)/m4/printf-posix.m4 \
++	$(top_srcdir)/m4/progtest.m4 $(top_srcdir)/m4/size_max.m4 \
++	$(top_srcdir)/m4/stdint_h.m4 $(top_srcdir)/m4/uintmax_t.m4 \
++	$(top_srcdir)/m4/visibility.m4 $(top_srcdir)/m4/wchar_t.m4 \
++	$(top_srcdir)/m4/wint_t.m4 $(top_srcdir)/m4/xsize.m4 \
++	$(top_srcdir)/configure.ac
+ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
+ 	$(ACLOCAL_M4)
+ mkinstalldirs = $(install_sh) -d
+@@ -75,6 +76,7 @@ ALLOCA = @ALLOCA@
+ AMTAR = @AMTAR@
+ AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
+ AR = @AR@
++AUDIT_LDADD = @AUDIT_LDADD@
+ AUTOCONF = @AUTOCONF@
+ AUTOHEADER = @AUTOHEADER@
+ AUTOMAKE = @AUTOMAKE@
+diff --git a/dbus/Makefile.in b/dbus/Makefile.in
+index 8294845..38a55ad 100644
+--- a/dbus/Makefile.in
++++ b/dbus/Makefile.in
+@@ -46,17 +46,18 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/codeset.m4 \
+ 	$(top_srcdir)/m4/inttypes-pri.m4 \
+ 	$(top_srcdir)/m4/inttypes_h.m4 $(top_srcdir)/m4/lcmessage.m4 \
+ 	$(top_srcdir)/m4/lib-ld.m4 $(top_srcdir)/m4/lib-link.m4 \
+-	$(top_srcdir)/m4/lib-prefix.m4 $(top_srcdir)/m4/libnih.m4 \
+-	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/lock.m4 \
+-	$(top_srcdir)/m4/longlong.m4 $(top_srcdir)/m4/ltoptions.m4 \
+-	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
+-	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/m4/nls.m4 \
+-	$(top_srcdir)/m4/pkg.m4 $(top_srcdir)/m4/po.m4 \
+-	$(top_srcdir)/m4/printf-posix.m4 $(top_srcdir)/m4/progtest.m4 \
+-	$(top_srcdir)/m4/size_max.m4 $(top_srcdir)/m4/stdint_h.m4 \
+-	$(top_srcdir)/m4/uintmax_t.m4 $(top_srcdir)/m4/visibility.m4 \
+-	$(top_srcdir)/m4/wchar_t.m4 $(top_srcdir)/m4/wint_t.m4 \
+-	$(top_srcdir)/m4/xsize.m4 $(top_srcdir)/configure.ac
++	$(top_srcdir)/m4/lib-prefix.m4 $(top_srcdir)/m4/libaudit.m4 \
++	$(top_srcdir)/m4/libnih.m4 $(top_srcdir)/m4/libtool.m4 \
++	$(top_srcdir)/m4/lock.m4 $(top_srcdir)/m4/longlong.m4 \
++	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
++	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
++	$(top_srcdir)/m4/nls.m4 $(top_srcdir)/m4/pkg.m4 \
++	$(top_srcdir)/m4/po.m4 $(top_srcdir)/m4/printf-posix.m4 \
++	$(top_srcdir)/m4/progtest.m4 $(top_srcdir)/m4/size_max.m4 \
++	$(top_srcdir)/m4/stdint_h.m4 $(top_srcdir)/m4/uintmax_t.m4 \
++	$(top_srcdir)/m4/visibility.m4 $(top_srcdir)/m4/wchar_t.m4 \
++	$(top_srcdir)/m4/wint_t.m4 $(top_srcdir)/m4/xsize.m4 \
++	$(top_srcdir)/configure.ac
+ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
+ 	$(ACLOCAL_M4)
+ mkinstalldirs = $(install_sh) -d
+@@ -100,6 +101,7 @@ ALLOCA = @ALLOCA@
+ AMTAR = @AMTAR@
+ AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
+ AR = @AR@
++AUDIT_LDADD = @AUDIT_LDADD@
+ AUTOCONF = @AUTOCONF@
+ AUTOHEADER = @AUTOHEADER@
+ AUTOMAKE = @AUTOMAKE@
+diff --git a/doc/Makefile.in b/doc/Makefile.in
+index b17181c..add3022 100644
+--- a/doc/Makefile.in
++++ b/doc/Makefile.in
+@@ -44,17 +44,18 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/codeset.m4 \
+ 	$(top_srcdir)/m4/inttypes-pri.m4 \
+ 	$(top_srcdir)/m4/inttypes_h.m4 $(top_srcdir)/m4/lcmessage.m4 \
+ 	$(top_srcdir)/m4/lib-ld.m4 $(top_srcdir)/m4/lib-link.m4 \
+-	$(top_srcdir)/m4/lib-prefix.m4 $(top_srcdir)/m4/libnih.m4 \
+-	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/lock.m4 \
+-	$(top_srcdir)/m4/longlong.m4 $(top_srcdir)/m4/ltoptions.m4 \
+-	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
+-	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/m4/nls.m4 \
+-	$(top_srcdir)/m4/pkg.m4 $(top_srcdir)/m4/po.m4 \
+-	$(top_srcdir)/m4/printf-posix.m4 $(top_srcdir)/m4/progtest.m4 \
+-	$(top_srcdir)/m4/size_max.m4 $(top_srcdir)/m4/stdint_h.m4 \
+-	$(top_srcdir)/m4/uintmax_t.m4 $(top_srcdir)/m4/visibility.m4 \
+-	$(top_srcdir)/m4/wchar_t.m4 $(top_srcdir)/m4/wint_t.m4 \
+-	$(top_srcdir)/m4/xsize.m4 $(top_srcdir)/configure.ac
++	$(top_srcdir)/m4/lib-prefix.m4 $(top_srcdir)/m4/libaudit.m4 \
++	$(top_srcdir)/m4/libnih.m4 $(top_srcdir)/m4/libtool.m4 \
++	$(top_srcdir)/m4/lock.m4 $(top_srcdir)/m4/longlong.m4 \
++	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
++	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
++	$(top_srcdir)/m4/nls.m4 $(top_srcdir)/m4/pkg.m4 \
++	$(top_srcdir)/m4/po.m4 $(top_srcdir)/m4/printf-posix.m4 \
++	$(top_srcdir)/m4/progtest.m4 $(top_srcdir)/m4/size_max.m4 \
++	$(top_srcdir)/m4/stdint_h.m4 $(top_srcdir)/m4/uintmax_t.m4 \
++	$(top_srcdir)/m4/visibility.m4 $(top_srcdir)/m4/wchar_t.m4 \
++	$(top_srcdir)/m4/wint_t.m4 $(top_srcdir)/m4/xsize.m4 \
++	$(top_srcdir)/configure.ac
+ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
+ 	$(ACLOCAL_M4)
+ mkinstalldirs = $(install_sh) -d
+@@ -75,6 +76,7 @@ ALLOCA = @ALLOCA@
+ AMTAR = @AMTAR@
+ AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
+ AR = @AR@
++AUDIT_LDADD = @AUDIT_LDADD@
+ AUTOCONF = @AUTOCONF@
+ AUTOHEADER = @AUTOHEADER@
+ AUTOMAKE = @AUTOMAKE@
+diff --git a/init/Makefile.in b/init/Makefile.in
+index c677761..9ca3de6 100644
+--- a/init/Makefile.in
++++ b/init/Makefile.in
+@@ -55,17 +55,18 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/codeset.m4 \
+ 	$(top_srcdir)/m4/inttypes-pri.m4 \
+ 	$(top_srcdir)/m4/inttypes_h.m4 $(top_srcdir)/m4/lcmessage.m4 \
+ 	$(top_srcdir)/m4/lib-ld.m4 $(top_srcdir)/m4/lib-link.m4 \
+-	$(top_srcdir)/m4/lib-prefix.m4 $(top_srcdir)/m4/libnih.m4 \
+-	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/lock.m4 \
+-	$(top_srcdir)/m4/longlong.m4 $(top_srcdir)/m4/ltoptions.m4 \
+-	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
+-	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/m4/nls.m4 \
+-	$(top_srcdir)/m4/pkg.m4 $(top_srcdir)/m4/po.m4 \
+-	$(top_srcdir)/m4/printf-posix.m4 $(top_srcdir)/m4/progtest.m4 \
+-	$(top_srcdir)/m4/size_max.m4 $(top_srcdir)/m4/stdint_h.m4 \
+-	$(top_srcdir)/m4/uintmax_t.m4 $(top_srcdir)/m4/visibility.m4 \
+-	$(top_srcdir)/m4/wchar_t.m4 $(top_srcdir)/m4/wint_t.m4 \
+-	$(top_srcdir)/m4/xsize.m4 $(top_srcdir)/configure.ac
++	$(top_srcdir)/m4/lib-prefix.m4 $(top_srcdir)/m4/libaudit.m4 \
++	$(top_srcdir)/m4/libnih.m4 $(top_srcdir)/m4/libtool.m4 \
++	$(top_srcdir)/m4/lock.m4 $(top_srcdir)/m4/longlong.m4 \
++	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
++	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
++	$(top_srcdir)/m4/nls.m4 $(top_srcdir)/m4/pkg.m4 \
++	$(top_srcdir)/m4/po.m4 $(top_srcdir)/m4/printf-posix.m4 \
++	$(top_srcdir)/m4/progtest.m4 $(top_srcdir)/m4/size_max.m4 \
++	$(top_srcdir)/m4/stdint_h.m4 $(top_srcdir)/m4/uintmax_t.m4 \
++	$(top_srcdir)/m4/visibility.m4 $(top_srcdir)/m4/wchar_t.m4 \
++	$(top_srcdir)/m4/wint_t.m4 $(top_srcdir)/m4/xsize.m4 \
++	$(top_srcdir)/configure.ac
+ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
+ 	$(ACLOCAL_M4)
+ mkinstalldirs = $(install_sh) -d
+@@ -283,6 +284,7 @@ ALLOCA = @ALLOCA@
+ AMTAR = @AMTAR@
+ AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
+ AR = @AR@
++AUDIT_LDADD = @AUDIT_LDADD@
+ AUTOCONF = @AUTOCONF@
+ AUTOHEADER = @AUTOHEADER@
+ AUTOMAKE = @AUTOMAKE@
+diff --git a/m4/libaudit.m4 b/m4/libaudit.m4
+new file mode 100644
+index 0000000..6865fb8
+--- /dev/null
++++ b/m4/libaudit.m4
+@@ -0,0 +1,25 @@
++# libaudit.m4 - Checks for the Linux Audit System support
++# 	Copyright (c) 2009 Steve Grubb sgrubb@redhat.com
++#
++AC_DEFUN([LINUX_AUDIT],
++[
++  AC_ARG_WITH(libaudit,
++    [  --with-libaudit=[auto/yes/no]  Add Linux audit support [default=auto]],,
++    with_libaudit=auto)
++
++  # Check for Linux auditing API
++  #
++  # libaudit detection
++
++  if test x$with_libaudit = xno ; then
++      have_libaudit=no;
++  else
++      # See if we have audit daemon library
++      AC_CHECK_LIB(audit, audit_log_user_message,
++	         AUDIT_LDADD=-laudit,)
++  fi
++  AC_SUBST(AUDIT_LDADD)
++  if test x$AUDIT_LDADD != x ; then
++      AC_DEFINE(HAVE_LIBAUDIT,1,[linux audit support])
++  fi
++])
+diff --git a/util/Makefile.am b/util/Makefile.am
+index 0b49c10..9a772d5 100644
+--- a/util/Makefile.am
++++ b/util/Makefile.am
+@@ -45,14 +45,17 @@ reboot_SOURCES = \
+ 	utmp.c utmp.h
+ reboot_LDADD = \
+ 	$(LTLIBINTL) \
+-	$(NIH_LIBS)
++	$(NIH_LIBS) \
++	$(AUDIT_LDADD)
++
+ 
+ runlevel_SOURCES = \
+ 	runlevel.c \
+ 	utmp.c utmp.h
+ runlevel_LDADD = \
+ 	$(LTLIBINTL) \
+-	$(NIH_LIBS)
++	$(NIH_LIBS) \
++	$(AUDIT_LDADD)
+ 
+ shutdown_SOURCES = \
+ 	shutdown.c \
+@@ -64,7 +67,8 @@ shutdown_LDADD = \
+ 	$(LTLIBINTL) \
+ 	$(NIH_LIBS) \
+ 	$(NIH_DBUS_LIBS) \
+-	$(DBUS_LIBS)
++	$(DBUS_LIBS) \
++	$(AUDIT_LDADD)
+ 
+ telinit_SOURCES = \
+ 	telinit.c \
+@@ -76,7 +80,8 @@ telinit_LDADD = \
+ 	$(LTLIBINTL) \
+ 	$(NIH_LIBS) \
+ 	$(NIH_DBUS_LIBS) \
+-	$(DBUS_LIBS)
++	$(DBUS_LIBS) \
++	$(AUDIT_LDADD)
+ 
+ 
+ com_ubuntu_Upstart_OUTPUTS = \
+@@ -201,7 +206,8 @@ test_sysv_LDADD = \
+ 	$(LTLIBINTL) \
+ 	$(NIH_LIBS) \
+ 	$(NIH_DBUS_LIBS) \
+-	$(DBUS_LIBS)
++	$(DBUS_LIBS) \
++	$(AUDIT_LDADD)
+ 
+ test_telinit_SOURCES = tests/test_telinit.c telinit.c
+ test_telinit_CFLAGS = $(AM_CFLAGS) -DTEST
+@@ -211,7 +217,8 @@ test_telinit_LDADD = \
+ 	com.ubuntu.Upstart.Job.o com.ubuntu.Upstart.Instance.o \
+ 	$(NIH_LIBS) \
+ 	$(NIH_DBUS_LIBS) \
+-	$(DBUS_LIBS)
++	$(DBUS_LIBS) \
++	$(AUDIT_LDADD)
+ 
+ 
+ .PHONY: tests
+diff --git a/util/Makefile.in b/util/Makefile.in
+index 55e17e5..40776d5 100644
+--- a/util/Makefile.in
++++ b/util/Makefile.in
+@@ -51,17 +51,18 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/codeset.m4 \
+ 	$(top_srcdir)/m4/inttypes-pri.m4 \
+ 	$(top_srcdir)/m4/inttypes_h.m4 $(top_srcdir)/m4/lcmessage.m4 \
+ 	$(top_srcdir)/m4/lib-ld.m4 $(top_srcdir)/m4/lib-link.m4 \
+-	$(top_srcdir)/m4/lib-prefix.m4 $(top_srcdir)/m4/libnih.m4 \
+-	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/lock.m4 \
+-	$(top_srcdir)/m4/longlong.m4 $(top_srcdir)/m4/ltoptions.m4 \
+-	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
+-	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/m4/nls.m4 \
+-	$(top_srcdir)/m4/pkg.m4 $(top_srcdir)/m4/po.m4 \
+-	$(top_srcdir)/m4/printf-posix.m4 $(top_srcdir)/m4/progtest.m4 \
+-	$(top_srcdir)/m4/size_max.m4 $(top_srcdir)/m4/stdint_h.m4 \
+-	$(top_srcdir)/m4/uintmax_t.m4 $(top_srcdir)/m4/visibility.m4 \
+-	$(top_srcdir)/m4/wchar_t.m4 $(top_srcdir)/m4/wint_t.m4 \
+-	$(top_srcdir)/m4/xsize.m4 $(top_srcdir)/configure.ac
++	$(top_srcdir)/m4/lib-prefix.m4 $(top_srcdir)/m4/libaudit.m4 \
++	$(top_srcdir)/m4/libnih.m4 $(top_srcdir)/m4/libtool.m4 \
++	$(top_srcdir)/m4/lock.m4 $(top_srcdir)/m4/longlong.m4 \
++	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
++	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
++	$(top_srcdir)/m4/nls.m4 $(top_srcdir)/m4/pkg.m4 \
++	$(top_srcdir)/m4/po.m4 $(top_srcdir)/m4/printf-posix.m4 \
++	$(top_srcdir)/m4/progtest.m4 $(top_srcdir)/m4/size_max.m4 \
++	$(top_srcdir)/m4/stdint_h.m4 $(top_srcdir)/m4/uintmax_t.m4 \
++	$(top_srcdir)/m4/visibility.m4 $(top_srcdir)/m4/wchar_t.m4 \
++	$(top_srcdir)/m4/wint_t.m4 $(top_srcdir)/m4/xsize.m4 \
++	$(top_srcdir)/configure.ac
+ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
+ 	$(ACLOCAL_M4)
+ mkinstalldirs = $(install_sh) -d
+@@ -88,20 +89,24 @@ am__v_lt_ = $(am__v_lt_$(AM_DEFAULT_VERBOSITY))
+ am__v_lt_0 = --silent
+ am_reboot_OBJECTS = reboot.$(OBJEXT) utmp.$(OBJEXT)
+ reboot_OBJECTS = $(am_reboot_OBJECTS)
+-reboot_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
++reboot_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
++	$(am__DEPENDENCIES_1)
+ am_runlevel_OBJECTS = runlevel.$(OBJEXT) utmp.$(OBJEXT)
+ runlevel_OBJECTS = $(am_runlevel_OBJECTS)
+-runlevel_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
++runlevel_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
++	$(am__DEPENDENCIES_1)
+ am_shutdown_OBJECTS = shutdown.$(OBJEXT) utmp.$(OBJEXT) sysv.$(OBJEXT)
+ nodist_shutdown_OBJECTS = $(am__objects_1)
+ shutdown_OBJECTS = $(am_shutdown_OBJECTS) $(nodist_shutdown_OBJECTS)
+ shutdown_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
++	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
++	$(am__DEPENDENCIES_1)
+ am_telinit_OBJECTS = telinit.$(OBJEXT) utmp.$(OBJEXT) sysv.$(OBJEXT)
+ nodist_telinit_OBJECTS = $(am__objects_1)
+ telinit_OBJECTS = $(am_telinit_OBJECTS) $(nodist_telinit_OBJECTS)
+ telinit_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
++	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
++	$(am__DEPENDENCIES_1)
+ am_test_initctl_OBJECTS = test_initctl-test_initctl.$(OBJEXT) \
+ 	test_initctl-initctl.$(OBJEXT)
+ test_initctl_OBJECTS = $(am_test_initctl_OBJECTS)
+@@ -118,14 +123,14 @@ test_sysv_OBJECTS = $(am_test_sysv_OBJECTS) \
+ 	$(nodist_test_sysv_OBJECTS)
+ test_sysv_DEPENDENCIES = sysv.o utmp.o $(am__DEPENDENCIES_1) \
+ 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+-	$(am__DEPENDENCIES_1)
++	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+ am_test_telinit_OBJECTS = test_telinit-test_telinit.$(OBJEXT) \
+ 	test_telinit-telinit.$(OBJEXT)
+ test_telinit_OBJECTS = $(am_test_telinit_OBJECTS)
+ test_telinit_DEPENDENCIES = sysv.o utmp.o com.ubuntu.Upstart.o \
+ 	com.ubuntu.Upstart.Job.o com.ubuntu.Upstart.Instance.o \
+ 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+-	$(am__DEPENDENCIES_1)
++	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+ test_telinit_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+ 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(test_telinit_CFLAGS) \
+ 	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+@@ -216,6 +221,7 @@ ALLOCA = @ALLOCA@
+ AMTAR = @AMTAR@
+ AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
+ AR = @AR@
++AUDIT_LDADD = @AUDIT_LDADD@
+ AUTOCONF = @AUTOCONF@
+ AUTOHEADER = @AUTOHEADER@
+ AUTOMAKE = @AUTOMAKE@
+@@ -419,7 +425,8 @@ reboot_SOURCES = \
+ 
+ reboot_LDADD = \
+ 	$(LTLIBINTL) \
+-	$(NIH_LIBS)
++	$(NIH_LIBS) \
++	$(AUDIT_LDADD)
+ 
+ runlevel_SOURCES = \
+ 	runlevel.c \
+@@ -427,7 +434,8 @@ runlevel_SOURCES = \
+ 
+ runlevel_LDADD = \
+ 	$(LTLIBINTL) \
+-	$(NIH_LIBS)
++	$(NIH_LIBS) \
++	$(AUDIT_LDADD)
+ 
+ shutdown_SOURCES = \
+ 	shutdown.c \
+@@ -441,7 +449,8 @@ shutdown_LDADD = \
+ 	$(LTLIBINTL) \
+ 	$(NIH_LIBS) \
+ 	$(NIH_DBUS_LIBS) \
+-	$(DBUS_LIBS)
++	$(DBUS_LIBS) \
++	$(AUDIT_LDADD)
+ 
+ telinit_SOURCES = \
+ 	telinit.c \
+@@ -455,7 +464,8 @@ telinit_LDADD = \
+ 	$(LTLIBINTL) \
+ 	$(NIH_LIBS) \
+ 	$(NIH_DBUS_LIBS) \
+-	$(DBUS_LIBS)
++	$(DBUS_LIBS) \
++	$(AUDIT_LDADD)
+ 
+ com_ubuntu_Upstart_OUTPUTS = \
+ 	com.ubuntu.Upstart.c \
+@@ -515,7 +525,8 @@ test_sysv_LDADD = \
+ 	$(LTLIBINTL) \
+ 	$(NIH_LIBS) \
+ 	$(NIH_DBUS_LIBS) \
+-	$(DBUS_LIBS)
++	$(DBUS_LIBS) \
++	$(AUDIT_LDADD)
+ 
+ test_telinit_SOURCES = tests/test_telinit.c telinit.c
+ test_telinit_CFLAGS = $(AM_CFLAGS) -DTEST
+@@ -525,7 +536,8 @@ test_telinit_LDADD = \
+ 	com.ubuntu.Upstart.Job.o com.ubuntu.Upstart.Instance.o \
+ 	$(NIH_LIBS) \
+ 	$(NIH_DBUS_LIBS) \
+-	$(DBUS_LIBS)
++	$(DBUS_LIBS) \
++	$(AUDIT_LDADD)
+ 
+ all: $(BUILT_SOURCES)
+ 	$(MAKE) $(AM_MAKEFLAGS) all-am
+diff --git a/util/reboot.c b/util/reboot.c
+index 7a9c071..15028eb 100644
+--- a/util/reboot.c
++++ b/util/reboot.c
+@@ -36,6 +36,10 @@
+ #include <nih/logging.h>
+ #include <nih/error.h>
+ 
++#ifdef HAVE_LIBAUDIT
++#include <libaudit.h>
++#endif
++
+ #include "utmp.h"
+ 
+ 
+@@ -103,7 +107,6 @@ static int poweroff = FALSE;
+  **/
+ static int exit_only = FALSE;
+ 
+-
+ /**
+  * options:
+  *
+@@ -127,6 +130,7 @@ static NihOption options[] = {
+ 	NIH_OPTION_LAST
+ };
+ 
++static void send_audit_event(void);
+ 
+ int
+ main (int   argc,
+@@ -227,6 +231,8 @@ main (int   argc,
+ 	/* Re-enable Control-Alt-Delete in case it breaks */
+ 	reboot (RB_ENABLE_CAD);
+ 
++	send_audit_event ();
++
+ 	/* Do the syscall */
+ 	switch (mode) {
+ 	case REBOOT:
+@@ -248,3 +254,21 @@ main (int   argc,
+ 
+ 	return 0;
+ }
++
++/**
++ * send_audit_event
++ *
++ * Send system shutdown audit event
++ **/
++static void
++send_audit_event (void)
++{
++#ifdef HAVE_LIBAUDIT
++	int fd = audit_open ();
++	if (fd < 0)
++		return;
++	audit_log_user_message (fd, AUDIT_SYSTEM_SHUTDOWN, "init",
++		NULL, NULL, NULL, 1);
++	close (fd);
++#endif
++}
+diff --git a/util/sysv.c b/util/sysv.c
+index fbca39f..5476f79 100644
+--- a/util/sysv.c
++++ b/util/sysv.c
+@@ -36,6 +36,12 @@
+ #include <nih/logging.h>
+ #include <nih/error.h>
+ 
++#include <unistd.h>
++#ifdef HAVE_LIBAUDIT
++#include <stdio.h>
++#include <libaudit.h>
++#endif
++
+ #include "dbus/upstart.h"
+ 
+ #include "utmp.h"
+@@ -54,6 +60,7 @@
+ 
+ /* Prototypes for static functions */
+ static void error_handler (NihError **err, NihDBusMessage *message);
++static void send_audit_event (int old, int level);
+ 
+ 
+ /**
+@@ -161,6 +168,8 @@ sysv_change_runlevel (int           runlevel,
+ 				 runlevel, prevlevel) < 0)
+ 		nih_free (nih_error_get ());
+ 
++	send_audit_event(prevlevel, runlevel);
++
+ 	/* Make the EmitEvent call, we don't wait for the event to finish
+ 	 * because sysvinit never did.
+ 	 */
+@@ -199,3 +208,41 @@ error_handler (NihError **     err,
+ {
+ 	*err = nih_error_steal ();
+ }
++
++/**
++ * send_audit_event
++ * @old: current run level
++ * @level: new run level
++ *
++ * Send system runlevel change audit event. If level is 0, then
++ * we consider this to be a reboot event.
++ **/
++static void
++send_audit_event (int old, int level)
++{
++#ifdef HAVE_LIBAUDIT
++        int fd = audit_open ();
++
++        if (fd < 0)
++                return;
++
++	/* first runlevel change after boot */
++	if (old == 'N')
++		audit_log_user_message (fd, AUDIT_SYSTEM_BOOT, "init",
++			NULL, NULL, NULL, 1);
++
++	char buf[64];
++
++	snprintf (buf, sizeof (buf),
++		"old-level=%c new-level=%c", old, level);
++	audit_log_user_message (fd, AUDIT_SYSTEM_RUNLEVEL, buf,
++		NULL, NULL, NULL, 1);
++
++	/* shutdown or reboot */
++	if (level == '0' || level == '6')
++		audit_log_user_message (fd, AUDIT_SYSTEM_SHUTDOWN, "init",
++			NULL, NULL, NULL, 1);
++
++	close (fd);
++#endif
++}

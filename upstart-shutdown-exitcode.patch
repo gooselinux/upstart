@@ -1,0 +1,28 @@
+diff --git a/util/shutdown.c b/util/shutdown.c
+index 0a6d8bf..2ef847a 100644
+--- a/util/shutdown.c
++++ b/util/shutdown.c
+@@ -459,6 +459,7 @@ shutdown_now (void)
+ {
+ 	nih_local char **extra_env = NULL;
+ 	NihDBusError *   dbus_err;
++	int exit_val = 0;
+ 
+ 	if (init_halt) {
+ 		char *e;
+@@ -486,12 +487,14 @@ shutdown_now (void)
+ 		 * yet rebooted ... so try /dev/initctl
+ 		 */
+ 		sysvinit_shutdown ();
++		nih_fatal ("Unable to shutdown system");
++		exit_val = 1;
+ 	}
+ 
+ 	unlink (ETC_NOLOGIN);
+ 	nih_main_unlink_pidfile ();
+ 
+-	exit (0);
++	exit (exit_val);
+ }
+ 
+ /**
